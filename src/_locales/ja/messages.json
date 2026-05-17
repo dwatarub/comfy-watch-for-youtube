@@ -1,0 +1,30 @@
+{
+  "extName": {
+    "message": "ComfyWatch for YouTube",
+    "description": "拡張機能の名前"
+  },
+  "extDescription": {
+    "message": "YouTubeの明るさ調節と、酔い防止センタードット表示機能を提供する拡張機能。",
+    "description": "拡張機能の説明"
+  },
+  "optionsTitle": {
+    "message": "ドットの設定",
+    "description": "オプションページのタイトル"
+  },
+  "optionsSubtitle": {
+    "message": "中央のドットの外観をカスタマイズします。",
+    "description": "オプションページのサブタイトル"
+  },
+  "showDotLabel": {
+    "message": "中央のドットを表示",
+    "description": "表示/非表示トグルのラベル"
+  },
+  "sizeLabel": {
+    "message": "サイズ",
+    "description": "サイズスライダーのラベル"
+  },
+  "colorLabel": {
+    "message": "色",
+    "description": "カラーピッカーのラベル"
+  }
+}

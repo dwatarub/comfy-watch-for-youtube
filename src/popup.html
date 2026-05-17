@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>ComfyWatch</title>
+  <link rel="stylesheet" href="options.css">
+  <style>
+    body {
+      width: 220px;
+      padding: 20px;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      min-height: 0;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    .container {
+      padding: 0;
+      border: none;
+      box-shadow: none;
+      background-color: transparent;
+      width: auto;
+      border-radius: 0;
+      overflow: visible;
+    }
+    h1 {
+      font-family: 'Roboto', sans-serif;
+      font-size: 16px;
+      font-weight: 500;
+      margin: 0 0 16px 0;
+      text-align: center;
+      color: var(--text-color);
+      transition: color 0.3s;
+    }
+    .control-group.switch-group {
+      justify-content: center;
+      margin-bottom: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- 「センタードットを表示する」トグル -->
+    <h1 data-i18n="showDotLabel">中央のドットを表示</h1>
+    <div class="control-group switch-group">
+      <label class="switch">
+        <input type="checkbox" id="dotVisibleToggle">
+        <span class="slider round"></span>
+      </label>
+    </div>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>

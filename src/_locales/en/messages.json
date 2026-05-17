@@ -1,0 +1,30 @@
+{
+  "extName": {
+    "message": "ComfyWatch for YouTube",
+    "description": "The name of the extension."
+  },
+  "extDescription": {
+    "message": "Adjust video brightness and display a center dot to prevent motion sickness on YouTube.",
+    "description": "The description of the extension."
+  },
+  "optionsTitle": {
+    "message": "Dot Settings",
+    "description": "Title for the options page."
+  },
+  "optionsSubtitle": {
+    "message": "Customize the appearance of the center dot.",
+    "description": "Subtitle for the options page."
+  },
+  "showDotLabel": {
+    "message": "Show Center Dot",
+    "description": "Label for the visibility toggle."
+  },
+  "sizeLabel": {
+    "message": "Size",
+    "description": "Label for the size slider."
+  },
+  "colorLabel": {
+    "message": "Color",
+    "description": "Label for the color picker."
+  }
+}

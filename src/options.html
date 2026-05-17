@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>ComfyWatch - 設定</title>
+  <link rel="stylesheet" href="options.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="header-content">
+        <h1 data-i18n="optionsTitle">ドットの設定</h1>
+        <p data-i18n="optionsSubtitle">中央のドットの外観をカスタマイズします。</p>
+      </div>
+      <!-- ライト/ダークテーマ切り替え -->
+      <div class="theme-switcher">
+        <i class="material-icons-outlined">light_mode</i>
+        <label class="switch">
+          <input type="checkbox" id="themeToggle">
+          <span class="slider round"></span>
+        </label>
+        <i class="material-icons-outlined">dark_mode</i>
+      </div>
+    </header>
+
+    <!-- ドットのプレビュー表示エリア -->
+    <div class="preview-container">
+      <div class="preview-dot" id="previewDot"></div>
+    </div>
+
+    <main class="controls">
+      <!-- サイズ調節スライダー -->
+      <div class="control-group">
+        <label for="dotSize" data-i18n="sizeLabel">サイズ</label>
+        <div class="slider-wrapper">
+          <input type="range" id="dotSize" min="2" max="40" step="2">
+          <span id="sizeValue" class="slider-value"></span>
+        </div>
+      </div>
+
+      <!-- カラーピッカー -->
+      <div class="control-group">
+        <label for="dotColor" data-i18n="colorLabel">色</label>
+        <input type="color" id="dotColor" class="color-picker">
+      </div>
+    </main>
+  </div>
+
+  <script src="options.js"></script>
+</body>
+</html>
