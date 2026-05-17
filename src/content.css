@@ -1,0 +1,123 @@
+/* ComfyWatch for YouTube - スタイルシート */
+/* 音量コントロール（.ytp-volume-area）と同等の独立パネル型UIスタイル */
+ 
+/* ===== 外側ラッパー（.ytp-volume-area と同等） ===== */
+#yt-brightness-control {
+  display: inline-flex;
+  align-items: center;
+  vertical-align: top;
+  overflow: visible;
+  position: relative;
+}
+ 
+/* ===== アイコンボタン（.ytp-mute-button 相当） ===== */
+/* width/height/padding を指定せず .ytp-button のネイティブスタイルに完全委譲する。
+   これにより再生ボタン・音量アイコンと全く同じ余白・サイズになる。 */
+.yt-brightness-icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  opacity: 0.9;
+  transition: opacity 0.1s ease;
+  /* padding・width・height は .ytp-button に委譲（上書き禁止） */
+}
+ 
+.yt-brightness-icon-btn svg {
+  /* YouTubeの他アイコンと同等の表示サイズ */
+  width: 24px;
+  height: 24px;
+  pointer-events: none;
+  display: block;
+}
+ 
+.yt-brightness-icon-btn:hover {
+  opacity: 1;
+}
+ 
+/* ===== スライダーパネル（.ytp-volume-slider-container 相当） ===== */
+.yt-brightness-panel {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  /* 初期状態：幅0で非表示 */
+  width: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: width 0.2s ease, opacity 0.2s ease;
+  white-space: nowrap;
+}
+ 
+/* ホバー時にパネルを展開する */
+/* 展開幅 = スライダー(98px) + gap(6px) + 数値ラベル(38px) + 余白(6px) = 148px */
+#yt-brightness-control:hover .yt-brightness-panel {
+  width: 148px;
+  opacity: 1;
+  overflow: visible;
+}
+ 
+/* ===== スライダー本体 ===== */
+/* RSTボタン廃止分の幅をスライダーに充当：52px → 98px */
+.yt-brightness-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 98px;
+  flex-shrink: 0;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
+}
+ 
+.yt-brightness-slider:hover {
+  background: rgba(255, 255, 255, 0.4);
+}
+ 
+/* スライダーのつまみ（WebKit系） */
+.yt-brightness-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  background: #ffffff;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  transition: transform 0.1s ease;
+}
+ 
+.yt-brightness-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+}
+ 
+/* スライダーのつまみ（Firefox系） */
+.yt-brightness-slider::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  background: #ffffff;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+ 
+.yt-brightness-slider::-moz-range-track {
+  background: rgba(255, 255, 255, 0.3);
+  height: 4px;
+  border-radius: 2px;
+}
+ 
+/* ===== 値表示ラベル ===== */
+.yt-brightness-value {
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 500;
+  font-family: 'YouTube Sans', 'Roboto', sans-serif;
+  min-width: 38px;
+  text-align: left;
+  user-select: none;
+  flex-shrink: 0;
+}

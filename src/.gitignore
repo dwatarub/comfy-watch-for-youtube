@@ -1,0 +1,12 @@
+# ストア申請用ZIPファイル（リポジトリには含めない）
+*.zip
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+
+# エディタ設定
+.vscode/
+.idea/
