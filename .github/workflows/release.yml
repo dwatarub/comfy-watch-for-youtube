@@ -44,10 +44,11 @@ jobs:
       - name: 拡張機能をZIP化する
         if: steps.tag_check.outputs.exists == 'false'
         run: |
-          cd src
-          zip -r ../ComfyWatch-for-YouTube-${{ steps.version.outputs.version }}.zip . --exclude "*.DS_Store"
+          mkdir -p ComfyWatch-for-YouTube
+          cp -r src/* ComfyWatch-for-YouTube/
+          zip -r ComfyWatch-for-YouTube-${{ steps.version.outputs.version }}.zip ComfyWatch-for-YouTube/ --exclude "*.DS_Store"
           echo "✅ ZIP作成完了"
-          ls -lh ../ComfyWatch-for-YouTube-${{ steps.version.outputs.version }}.zip
+          ls -lh ComfyWatch-for-YouTube-${{ steps.version.outputs.version }}.zip
 
       # Releaseを作成してZIPをアセットとして添付する
       - name: Releaseを作成する
