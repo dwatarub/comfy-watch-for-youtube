@@ -93,9 +93,29 @@ function insertBrightnessSlider() {
   valueLabel.className = 'yt-brightness-value';
   valueLabel.textContent = `${DEFAULT_BRIGHTNESS}%`;
 
-  // パネル内に要素を追加する
+  // ドットON/OFFトグルボタンを作成する（目のアイコン）
+  const dotToggleBtn = document.createElement('button');
+  dotToggleBtn.id = 'cw-dot-toggle-btn';
+  dotToggleBtn.className = 'cw-dot-toggle-btn ytp-button';
+  dotToggleBtn.title = 'センタードット ON/OFF';
+  // 「目」SVGアイコン（ONとOFF状態でsvgを差し替える）
+  const DOT_ON_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="100%" height="100%">
+    <path d="M12 5C7 5 2.73 8.11 1 12c1.73 3.89 6 7 11 7s9.27-3.11 11-7c-1.73-3.89-6-7-11-7z"
+          fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="12" cy="12" r="3" fill="#fff"/>
+  </svg>`;
+  const DOT_OFF_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="100%" height="100%">
+    <path d="M12 5C7 5 2.73 8.11 1 12c1.73 3.89 6 7 11 7s9.27-3.11 11-7c-1.73-3.89-6-7-11-7z"
+          fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="12" cy="12" r="3" fill="rgba(255,255,255,0.4)"/>
+    <line x1="4" y1="4" x2="20" y2="20" stroke="rgba(255,255,255,0.4)" stroke-width="2" stroke-linecap="round"/>
+  </svg>`;
+  dotToggleBtn.innerHTML = dotConfig.isDotVisible ? DOT_ON_SVG : DOT_OFF_SVG;
+
+  // パネル内に要素を追加する（スライダー → 数値 → ドットトグル）
   sliderPanel.appendChild(slider);
   sliderPanel.appendChild(valueLabel);
+  sliderPanel.appendChild(dotToggleBtn);
 
   // ラッパーにアイコンとパネルを追加する
   controlWrapper.appendChild(iconButton);
@@ -106,6 +126,23 @@ function insertBrightnessSlider() {
 
   // 保存済みの明るさ設定を読み込んで適用する
   loadAndApplyBrightness(slider, valueLabel);
+
+  // ドットトグルボタンの状態をストレージから読み込んで反映する
+  chrome.storage.sync.get({ isDotVisible: true }, (result) => {
+    dotConfig.isDotVisible = result.isDotVisible;
+    dotToggleBtn.innerHTML = dotConfig.isDotVisible ? DOT_ON_SVG : DOT_OFF_SVG;
+    dotToggleBtn.dataset.dotOn = dotConfig.isDotVisible ? 'true' : 'false';
+    createOrUpdateDot();
+  });
+
+  // ドットトグルボタンクリック時：ON/OFFをトグルする
+  dotToggleBtn.addEventListener('click', () => {
+    dotConfig.isDotVisible = !dotConfig.isDotVisible;
+    dotToggleBtn.innerHTML = dotConfig.isDotVisible ? DOT_ON_SVG : DOT_OFF_SVG;
+    dotToggleBtn.dataset.dotOn = dotConfig.isDotVisible ? 'true' : 'false';
+    createOrUpdateDot();
+    chrome.storage.sync.set({ isDotVisible: dotConfig.isDotVisible });
+  });
 
   // アイコンクリック時：明るさを100%にリセットする
   iconButton.addEventListener('click', () => {
@@ -230,7 +267,27 @@ chrome.storage.onChanged.addListener((changes) => {
       needsUpdate = true;
     }
   }
-  if (needsUpdate) createOrUpdateDot();
+  if (needsUpdate) {
+    createOrUpdateDot();
+    // ポップアップ等の外部からisDotVisibleが変更された場合もボタンに反映する
+    if (changes.isDotVisible) {
+      const btn = document.getElementById('cw-dot-toggle-btn');
+      if (btn) {
+        const DOT_ON_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="100%" height="100%">
+          <path d="M12 5C7 5 2.73 8.11 1 12c1.73 3.89 6 7 11 7s9.27-3.11 11-7c-1.73-3.89-6-7-11-7z"
+                fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="12" cy="12" r="3" fill="#fff"/>
+        </svg>`;
+        const DOT_OFF_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="100%" height="100%">
+          <path d="M12 5C7 5 2.73 8.11 1 12c1.73 3.89 6 7 11 7s9.27-3.11 11-7c-1.73-3.89-6-7-11-7z"
+                fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="12" cy="12" r="3" fill="rgba(255,255,255,0.4)"/>
+          <line x1="4" y1="4" x2="20" y2="20" stroke="rgba(255,255,255,0.4)" stroke-width="2" stroke-linecap="round"/>
+        </svg>`;
+        btn.innerHTML = changes.isDotVisible.newValue ? DOT_ON_SVG : DOT_OFF_SVG;
+      }
+    }
+  }
 });
 
 // =============================================================

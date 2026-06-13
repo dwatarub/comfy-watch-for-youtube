@@ -3,51 +3,65 @@
 <head>
   <meta charset="UTF-8">
   <title>ComfyWatch</title>
-  <link rel="stylesheet" href="options.css">
   <style>
     body {
-      width: 220px;
-      padding: 20px;
-      background-color: var(--bg-color);
-      color: var(--text-color);
-      min-height: 0;
-      transition: background-color 0.3s, color 0.3s;
-    }
-    .container {
-      padding: 0;
-      border: none;
-      box-shadow: none;
-      background-color: transparent;
-      width: auto;
-      border-radius: 0;
-      overflow: visible;
+      width: 200px;
+      padding: 16px;
+      font-family: 'Roboto', sans-serif;
+      background: #1a1a1a;
+      color: #fff;
+      margin: 0;
     }
     h1 {
-      font-family: 'Roboto', sans-serif;
-      font-size: 16px;
+      font-size: 14px;
       font-weight: 500;
-      margin: 0 0 16px 0;
+      margin: 0 0 12px 0;
       text-align: center;
-      color: var(--text-color);
-      transition: color 0.3s;
+      opacity: 0.9;
     }
-    .control-group.switch-group {
-      justify-content: center;
-      margin-bottom: 0;
+    .options-link {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      width: 100%;
+      padding: 10px 12px;
+      background: rgba(255,255,255,0.08);
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 13px;
+      cursor: pointer;
+      text-align: left;
+      box-sizing: border-box;
+      transition: background 0.15s ease;
+    }
+    .options-link:hover {
+      background: rgba(255,255,255,0.15);
+    }
+    .options-link svg {
+      flex-shrink: 0;
+      opacity: 0.8;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <!-- 「センタードットを表示する」トグル -->
-    <h1 data-i18n="showDotLabel">中央のドットを表示</h1>
-    <div class="control-group switch-group">
-      <label class="switch">
-        <input type="checkbox" id="dotVisibleToggle">
-        <span class="slider round"></span>
-      </label>
-    </div>
-  </div>
+  <h1>ComfyWatch for YouTube</h1>
+  <button class="options-link" id="openOptions">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+         fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="3"/>
+      <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06
+               a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09
+               A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83
+               l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09
+               A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83
+               l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09
+               a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83
+               l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09
+               a1.65 1.65 0 0 0-1.51 1z"/>
+    </svg>
+    ドットの設定を開く
+  </button>
   <script src="popup.js"></script>
 </body>
 </html>
