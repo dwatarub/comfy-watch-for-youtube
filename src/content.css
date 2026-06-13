@@ -1,7 +1,10 @@
 /* ComfyWatch for YouTube - スタイルシート */
-/* 音量コントロール（.ytp-volume-area）と同等の独立パネル型UIスタイル */
 
-/* ===== 外側ラッパー（.ytp-volume-area と同等） ===== */
+/* =============================================================
+   明るさコントロール
+   ============================================================= */
+
+/* 外側ラッパー（.ytp-volume-area と同等） */
 #yt-brightness-control {
   display: inline-flex;
   align-items: center;
@@ -10,9 +13,7 @@
   position: relative;
 }
 
-/* ===== アイコンボタン（.ytp-mute-button 相当） ===== */
-/* width/height/padding を指定せず .ytp-button のネイティブスタイルに完全委譲する。
-   これにより再生ボタン・音量アイコンと全く同じ余白・サイズになる。 */
+/* 太陽アイコンボタン（.ytp-button に委譲） */
 .yt-brightness-icon-btn {
   display: flex;
   align-items: center;
@@ -22,27 +23,23 @@
   cursor: pointer;
   opacity: 0.9;
   transition: opacity 0.1s ease;
-  /* padding・width・height は .ytp-button に委譲（上書き禁止） */
 }
 
 .yt-brightness-icon-btn svg {
-  /* YouTubeの他アイコンと同等の表示サイズ */
   width: 24px;
   height: 24px;
   pointer-events: none;
   display: block;
 }
 
-.yt-brightness-icon-btn:hover {
-  opacity: 1;
-}
+.yt-brightness-icon-btn:hover { opacity: 1; }
 
-/* ===== スライダーパネル（.ytp-volume-slider-container 相当） ===== */
+/* スライダーパネル（ホバーで展開） */
+/* 展開幅 = -5btn(28) + gap(4) + wrapper(98) + gap(4) + +5btn(28) + gap(4) + label(38) = 204px */
 .yt-brightness-panel {
   display: flex;
   align-items: center;
-  gap: 6px;
-  /* 初期状態：幅0で非表示 */
+  gap: 4px;
   width: 0;
   overflow: hidden;
   opacity: 0;
@@ -50,30 +47,96 @@
   white-space: nowrap;
 }
 
-/* ホバー時にパネルを展開する */
-/* 展開幅 = スライダー(98px) + gap(6px) + 数値ラベル(38px) + gap(6px) + ドットボタン(28px) = 176px */
 #yt-brightness-control:hover .yt-brightness-panel {
-  width: 176px;
+  width: 204px;
   opacity: 1;
   overflow: visible;
 }
 
-/* ===== スライダー本体 ===== */
-/* RSTボタン廃止分の幅をスライダーに充当：52px → 98px */
+/* ±5ステップボタン */
+.yt-brightness-step-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1;
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  flex-shrink: 0;
+  border-radius: 50%;
+  transition: color 0.1s ease, background 0.1s ease;
+  user-select: none;
+}
+
+.yt-brightness-step-btn:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.yt-brightness-step-btn:active {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* スライダーラッパー（100%マーカー縦線を重ねるための相対配置） */
+.yt-brightness-slider-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  width: 98px;
+  height: 20px; /* クリック領域を確保する */
+}
+
+/* 100%位置の縦線マーカー */
+.yt-brightness-slider-wrapper::before {
+  content: '';
+  position: absolute;
+  /* CSS変数 --marker-pct でJS側から位置を渡す（約47.37%） */
+  left: var(--marker-pct, 47.37%);
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 1.5px;
+  height: 10px;
+  background: rgba(255, 255, 255, 0.55);
+  border-radius: 1px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* スライダー本体 */
 .yt-brightness-slider {
   -webkit-appearance: none;
   appearance: none;
-  width: 98px;
-  flex-shrink: 0;
+  width: 100%;
   height: 4px;
   background: rgba(255, 255, 255, 0.3);
   border-radius: 2px;
   outline: none;
   cursor: pointer;
+  position: relative;
+  z-index: 2; /* マーカーより前面に出してつまみ操作を妨げない */
+  background-color: transparent; /* ラッパーの ::before が透けて見えるよう透明にする */
 }
 
-.yt-brightness-slider:hover {
-  background: rgba(255, 255, 255, 0.4);
+/* トラックの色はラッパー側で擬似要素として描画する */
+.yt-brightness-slider-wrapper::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 2px;
+  pointer-events: none;
+  z-index: 0;
 }
 
 /* スライダーのつまみ（WebKit系） */
@@ -87,6 +150,8 @@
   cursor: pointer;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
   transition: transform 0.1s ease;
+  position: relative;
+  z-index: 3;
 }
 
 .yt-brightness-slider::-webkit-slider-thumb:hover {
@@ -110,7 +175,7 @@
   border-radius: 2px;
 }
 
-/* ===== 値表示ラベル ===== */
+/* 数値ラベル */
 .yt-brightness-value {
   color: #ffffff;
   font-size: 13px;
@@ -122,8 +187,18 @@
   flex-shrink: 0;
 }
 
-/* ===== ドットON/OFFトグルボタン ===== */
-/* .ytp-button のネイティブスタイルに委譲しつつ、SVGサイズのみ調整 */
+/* =============================================================
+   ドットトグルボタン（独立・常時表示）
+   ============================================================= */
+
+#cw-dot-toggle-control {
+  display: inline-flex;
+  align-items: center;
+  vertical-align: top;
+  overflow: visible;
+}
+
+/* .ytp-button のネイティブスタイルに委譲 */
 .cw-dot-toggle-btn {
   display: flex;
   align-items: center;
@@ -131,18 +206,15 @@
   background: none;
   border: none;
   cursor: pointer;
-  opacity: 0.9;
-  flex-shrink: 0;
+  opacity: 0.85;
   transition: opacity 0.15s ease;
 }
 
 .cw-dot-toggle-btn svg {
-  width: 20px;
-  height: 20px;
+  width: 22px;
+  height: 22px;
   pointer-events: none;
   display: block;
 }
 
-.cw-dot-toggle-btn:hover {
-  opacity: 1;
-}
+.cw-dot-toggle-btn:hover { opacity: 1; }
