@@ -54,10 +54,14 @@ jobs:
       - name: リリースノートを作成する
         id: release_note
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
         run: |
           GENERATE_NOTES=$(gh api /repos/${{ github.repository_owner }}/${{ github.event.repository.name }}/releases/generate-notes -f tag_name="${{ steps.version.outputs.tag }}" --jq .body)
-          echo "notes=$GENERATE_NOTES" >> $GITHUB_OUTPUT
+
+          echo "notes<<EOF" >> $GITHUB_OUTPUT
+          echo "$GENERATE_NOTES" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
 
       # Releaseを作成してZIPをアセットとして添付する
       - name: Releaseを作成する
